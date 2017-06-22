@@ -5,11 +5,14 @@ source("functions.R")
 
 runML = TRUE
 cv =  FALSE
+modelName = "gbm-model-spam-ham"
+method = "gbm"
 spam = readData()
 wordMatrixFiltered = createWordMatrix(spam)
 
 
 if(runML) {  
+  printWelcome(modelName, method, cv) 
   trainIndex <- createDataPartition(wordMatrixFiltered$type, p = .6,  list = FALSE, times = 1)
   dataTrain <- wordMatrixFiltered[ trainIndex,]
   dataTest  <- wordMatrixFiltered[-trainIndex,]
@@ -27,9 +30,9 @@ if(runML) {
   
   modelFit = createModelFit(dataTrain, method, fitControl, grid, cv) 
   
-  saveModel("gbm-model-spam-ham.rds")  
+  saveModel(cv, modelName)  
   
-  printModelFitAndPredictions(modelFit, dataTest)
+  printModelFitAndPredictions(modelFit, dataTest, wordMatrixFiltered)
   
   
 }
