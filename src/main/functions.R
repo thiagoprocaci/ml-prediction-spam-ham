@@ -82,8 +82,8 @@ createWordMatrix <- function(data) {
 }
 
 createModelFit <- function(dataTrain, method, fitControl, grid, cv) {
-	if(cv == FALSE) {
-		print("Creating model with no cross-validation")
+	if(cv == TRUE) {
+		print("Creating model with cross-validation")
 	    modelFit <- train(type ~ . , data = dataTrain, 
 	                      method = method,  
 	                      trControl = fitControl,
@@ -93,7 +93,7 @@ createModelFit <- function(dataTrain, method, fitControl, grid, cv) {
 	      )  
 	    return (modelFit)
 	} else {
-		  print("Creating model with cross-validation")
+		  print("Creating model with no cross-validation")
 	      modelFit <- train(type ~ . , data = dataTrain, method = method, verbose = FALSE)  
 	      return (modelFit)
 	}
@@ -133,7 +133,8 @@ printModelFitAndPredictions <- function(modelFit, dataTest, data) {
   print(precision)
   print(recall)
   print(F1)
-  data[, "pred"] = predictions
+  return (predictions)
+  #data[, "pred"] = predictions
   #trellis.par.set(caretTheme())
   #print(plot(modelFit, metric = "ROC"))
   

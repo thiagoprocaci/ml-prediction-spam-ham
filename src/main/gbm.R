@@ -1,4 +1,4 @@
-
+library(caret)
 source("functions.R")
 #my_model <- readRDS("model.rds")
 
@@ -27,12 +27,14 @@ if(runML) {
                        shrinkage = 0.1,
                        n.minobsinnode = 20)
   
+
   
   modelFit = createModelFit(dataTrain, method, fitControl, grid, cv) 
   
   saveModel(cv, modelName)  
   
-  printModelFitAndPredictions(modelFit, dataTest, wordMatrixFiltered)
+  predictions = printModelFitAndPredictions(modelFit, dataTest, wordMatrixFiltered)
+  #spam[, "pred"] = as.numeric(predictions)
   
   
 }
